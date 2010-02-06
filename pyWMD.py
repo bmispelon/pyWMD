@@ -262,8 +262,8 @@ if __name__=="__main__":
         print "There was a problem communicating with the device."
         print "Make sure you have the appropriate permissions to access USB devices (try running as root)."
         print "If you still have problems, try unplugging and replugging the device and try again."
-    
-    if options.fire:
-        device.fire(options.fire)
-    elif options.text_ui: SimpleTextUI(device).run()
-    elif options.numpad_ui: SimpleNumpadUI(device).run()
+    else:
+        if options.fire:
+            device.fire(options.fire)
+        elif options.text_ui: SimpleTextUI(device).run()
+        elif options.numpad_ui: SimpleNumpadUI(device).run()
