@@ -3,3 +3,9 @@
 
 # Auto-saves
 *~
+
+# Virtualenv files
+bin/
+buid/
+include/
+lib/
