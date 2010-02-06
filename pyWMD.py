@@ -40,11 +40,11 @@ class MissileDevice:
     def _find_device(self):
         """Finds the device corresponding to the VENDOR_ID and PRODUCT_ID.
         Returns the device object if found, None otherwise."""
+        from itertools import chain
         
-        for bus in usb.busses():
-            for dev in bus.devices:
-                if dev.idVendor==self.VENDOR_ID and dev.idProduct==self.PRODUCT_ID:
-                    return dev
+        for dev in chain(*[b.devices for b in usb.busses()): # flattens the list
+            if dev.idVendor==self.VENDOR_ID and dev.idProduct==self.PRODUCT_ID:
+                return dev
         return None
     
     def _open_device(self):
