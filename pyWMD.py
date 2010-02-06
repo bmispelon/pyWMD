@@ -42,7 +42,7 @@ class MissileDevice:
         Returns the device object if found, None otherwise."""
         from itertools import chain
         
-        for dev in chain(*[b.devices for b in usb.busses()): # flattens the list
+        for dev in chain(*[b.devices for b in usb.busses()]): # flattens the list
             if dev.idVendor==self.VENDOR_ID and dev.idProduct==self.PRODUCT_ID:
                 return dev
         return None
