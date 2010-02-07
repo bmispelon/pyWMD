@@ -179,76 +179,10 @@ class MissileDevice:
         self._command(self.STOP)
 
 
-class MissileControlUI:
-    def __init__(self, device=None):
-        if device:
-            self.dev = device
-        else:
-            self.dev = MissileDevice()
-
-
- 
-class SimpleNumpadUI(MissileControlUI):
-    def help(self):
-        print "Use your numeric keypad to move the device."
-        print "Enter a digit between 1 and 9 and press Enter."
-        print "To fire a missile, enter the number 42."
-        print "To leave the program, leave the line blank and press Enter."
-    
-    def run(self):
-        self.help()
-        while True:
-            input = raw_input('Direction :')
-            if not input: break
-            try: input = int(input)
-            except ValueError: print 'Try again...'
-            else: self.move_by_number(input)
-        self.exit()
-    
-    def move_by_number(self, n):
-        """Use numbers on a numeric keypad to move the device."""
-        if n == 5: self.dev.stop()
-        elif n in range(1, 10): self.dev.move(n)
-        elif n == 42: self.dev.fire()
-        else: print '%s is not a valid direction' % n
-    
-    def exit(self):
-        self.dev = None
-        print "Good Bike !"
-
-class SimpleTextUI(MissileControlUI):
-    def help(self):
-        print "Here are the instructions that you can give:"
-        print "    * `go X`: moves to the X direction (up, down, left, right)"
-        print "    * `fire`: fires one missile"
-        print "    * `stop`: stops the device (only useful if it is still moving)"
-        print "    * `exit`: exits this program"
-        print "    * `help`: shows this message"
-    
-    
-    def run(self):
-        print "Welcome to the Missile control center. Type help then press Enter to get help."
-        while True:
-            input = raw_input('>')
-            
-            instructions = input.lower().split(' ')
-            action = instructions.pop(0)
-            
-            if     action == 'fire': self.dev.fire()
-            elif   action == 'fire!!!': self.dev.fire_all()
-            elif   action == 'stop': self.dev.stop()
-            elif   action == 'help': self.help()
-            elif   action == 'exit': break
-            elif action == 'go' and instructions: self.dev.move(instructions[0])
-            else: print "I don't understand..."
-        
-        self.dev = None
-        print "Good Bike !"
-
-
 
 if __name__=="__main__":
     from optparse import OptionParser
+    from ui import *
     p = OptionParser()
     p.set_defaults(fire=0, text_ui=True, numpad_ui=False)
     p.add_option('-f', '--fire', help="Fires a missile (can be cumulated).", action='count', dest='fire')
@@ -265,5 +199,5 @@ if __name__=="__main__":
     else:
         if options.fire:
             device.fire(options.fire)
-        elif options.text_ui: SimpleTextUI(device).run()
         elif options.numpad_ui: SimpleNumpadUI(device).run()
+        elif options.text_ui: SimpleTextUI(device).run()
