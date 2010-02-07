@@ -188,6 +188,7 @@ if __name__=="__main__":
     p.add_option('-f', '--fire', help="Fires a missile (can be cumulated).", action='count', dest='fire')
     p.add_option('-t', '--text-ui', help="Start a minimal text interface.", action='store_true', dest='text_ui')
     p.add_option('-n', '--numpad-ui', help="Start a minimal interface using the numeric keypad.", action='store_true', dest='numpad_ui')
+    p.add_option('-g', '--gui', help="Start a simple GUI.", action='store_true', dest='gui')
     
     options, args = p.parse_args()
     
@@ -200,4 +201,5 @@ if __name__=="__main__":
         if options.fire:
             device.fire(options.fire)
         elif options.numpad_ui: SimpleNumpadUI(device).run()
+        elif options.gui: SimpleGUI(device).run()
         elif options.text_ui: SimpleTextUI(device).run()
